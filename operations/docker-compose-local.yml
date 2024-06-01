@@ -1,0 +1,25 @@
+
+version: '3.8'
+volumes:
+  next_app_volume:
+    name: next_app_volume
+
+services:
+  fe:
+    ports:
+      - "4003:3000"
+    container_name: next_app
+    tty: true
+    build:
+      context: ../
+      dockerfile: operations/Dockerfile
+    volumes:
+      - ../:/app
+      # sono i dati che rimangono persistenti
+      - next_app_volume:/app/node_modules
+    networks:
+      - next_app-network
+
+networks:
+  next_app-network:
+    driver: bridge
